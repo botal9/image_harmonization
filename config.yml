@@ -1,10 +1,10 @@
-MODELS_PATH: "/hdd0/harmonization_exps/models"
-EXPS_PATH: "/hdd0/harmonization_exps"
+MODELS_PATH: "./harmonization_exps/models"
+EXPS_PATH: "./harmonization_exps"
 
-HFLICKR_PATH: "/hdd0/datasets/ImageHarmonization/HFlickr"
-HDAY2NIGHT_PATH: "/hdd0/datasets/ImageHarmonization/Hday2night"
-HCOCO_PATH: "/hdd0/datasets/ImageHarmonization/HCOCO"
-HADOBE5K_PATH: "/hdd0/datasets/ImageHarmonization/HAdobe5k"
+HFLICKR_PATH: "/home/vovechkin/generator_data/HFlickr"
+HDAY2NIGHT_PATH: "/home/vovechkin/generator_data/Hday2night"
+HCOCO_PATH: "/home/vovechkin/generator_data/HCOCO"
+HADOBE5K_PATH: "/home/vovechkin/generator_data/HAdobe5k"
 
 IMAGENET_PRETRAINED_MODELS:
   HRNETV2_W18_SMALL: "./pretrained_models/hrnet_w18_small_model_v2.pth"

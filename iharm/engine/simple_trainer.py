@@ -105,7 +105,7 @@ class SimpleHTrainer(object):
 
         self.net.train()
         for i, batch_data in enumerate(tbar):
-            global_step = epoch * len(self.train_data) + i
+#             global_step = epoch * len(self.train_data) + i
 
             loss, losses_logging, splitted_batch_data, outputs = \
                 self.batch_forward(batch_data)
@@ -117,34 +117,34 @@ class SimpleHTrainer(object):
             batch_loss = loss.item()
             train_loss += batch_loss
 
-            for loss_name, loss_values in losses_logging.items():
-                self.sw.add_scalar(tag=f'{log_prefix}Losses/{loss_name}',
-                                   value=np.array(loss_values).mean(),
-                                   global_step=global_step)
-            self.sw.add_scalar(tag=f'{log_prefix}Losses/overall',
-                               value=batch_loss,
-                               global_step=global_step)
+#             for loss_name, loss_values in losses_logging.items():
+#                 self.sw.add_scalar(tag=f'{log_prefix}Losses/{loss_name}',
+#                                    value=np.array(loss_values).mean(),
+#                                    global_step=global_step)
+#             self.sw.add_scalar(tag=f'{log_prefix}Losses/overall',
+#                                value=batch_loss,
+#                                global_step=global_step)
 
-            for k, v in self.loss_cfg.items():
-                if '_loss' in k and hasattr(v, 'log_states') and self.loss_cfg.get(k + '_weight', 0.0) > 0:
-                    v.log_states(self.sw, f'{log_prefix}Losses/{k}', global_step)
+#             for k, v in self.loss_cfg.items():
+#                 if '_loss' in k and hasattr(v, 'log_states') and self.loss_cfg.get(k + '_weight', 0.0) > 0:
+#                     v.log_states(self.sw, f'{log_prefix}Losses/{k}', global_step)
 
-            if self.image_dump_interval > 0 and global_step % self.image_dump_interval == 0:
-                with torch.no_grad():
-                    self.save_visualization(splitted_batch_data, outputs, global_step, prefix='train')
+#             if self.image_dump_interval > 0 and global_step % self.image_dump_interval == 0:
+#                 with torch.no_grad():
+#                     self.save_visualization(splitted_batch_data, outputs, global_step, prefix='train')
 
-            self.sw.add_scalar(tag=f'{log_prefix}States/learning_rate',
-                               value=self.lr if self.lr_scheduler is None else self.lr_scheduler.get_lr()[-1],
-                               global_step=global_step)
+#             self.sw.add_scalar(tag=f'{log_prefix}States/learning_rate',
+#                                value=self.lr if self.lr_scheduler is None else self.lr_scheduler.get_lr()[-1],
+#                                global_step=global_step)
 
             tbar.set_description(f'Epoch {epoch}, training loss {train_loss/(i+1):.6f}')
-            for metric in self.train_metrics:
-                metric.log_states(self.sw, f'{log_prefix}Metrics/{metric.name}', global_step)
+#             for metric in self.train_metrics:
+#                 metric.log_states(self.sw, f'{log_prefix}Metrics/{metric.name}', global_step)
 
-        for metric in self.train_metrics:
-            self.sw.add_scalar(tag=f'{log_prefix}Metrics/epoch_{metric.name}',
-                               value=metric.get_epoch_value(),
-                               global_step=epoch, disable_avg=True)
+#         for metric in self.train_metrics:
+#             self.sw.add_scalar(tag=f'{log_prefix}Metrics/epoch_{metric.name}',
+#                                value=metric.get_epoch_value(),
+#                                global_step=epoch, disable_avg=True)
 
         save_checkpoint(self.net, self.cfg.CHECKPOINTS_PATH, prefix=self.task_prefix,
                         epoch=None, multi_gpu=self.cfg.multi_gpu)
